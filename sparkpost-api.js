@@ -1,5 +1,11 @@
-// Write your package code here!
+var sparky = {
+	_options: {
+		apiKey: null,
+		origin: 'https://api.sparkpost.com:443',
+		apiVersion: 'v1',
+		headers: {}
+	}
+};
 
-// Variables exported by this module can be imported by other packages and
-// applications. See sparkpost-api-tests.js for an example of importing.
-export const name = 'sparkpost-api';
+
+export var Sparkpost = sparky;

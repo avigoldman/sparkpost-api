@@ -62,4 +62,20 @@ sparky.prototype.request = function(method, endpoint, data, callback) {
 		callback);
 };
 
+sparky.prototype.post = function(endpoint, data, callback) {
+	this.request('POST', endpoint, data, callback);
+};
+
+sparky.prototype.put = function(endpoint, data, callback) {
+	this.request('PUT', endpoint, data, callback);
+};
+
+sparky.prototype.get = function(endpoint, data, callback) {
+	this.request('GET', endpoint, data, callback);
+};
+
+sparky.prototype.delete = function(endpoint, data, callback) {
+	this.request('DELETE', endpoint, data, callback);
+};
+
 export var Sparkpost = sparky;

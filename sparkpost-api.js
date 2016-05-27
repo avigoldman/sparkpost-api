@@ -1,3 +1,5 @@
+import { HTTP } from 'meteor/http'
+
 var sparky = function() {
 	this.options = {
 		apiKey: null,
@@ -9,23 +11,55 @@ var sparky = function() {
 	};
 };
 
-sparky.prototype._buildURL = function(endpoint, segments, params) {
-	var segmentsString = segments.join('/');
+sparky.prototype._buildURL = function(data) {
+	// accept the path as either string or array
+	var path = Array.isArray(data.path) ? data.path.join('/') : data.path;
 	
-	var paramsString = "";
-	for (var key in params) {
-	    if (paramsString != "") {
+	var params = "";
+	for (var key in data.params) {
+	    if (paramsString !== "") {
 	        paramsString += "&";
 	    }
-	    paramsString += key + "=" + encodeURIComponent(params[key]);
+
+	    // if param value is array make it a string
+	    var value = Array.isArray(data.params[key]) ? data.params[key].join(',') : data.params[key];
+
+	    params += key + "=" + encodeURIComponent(value);
 	}
 	
-	return this.origin + "/" + this.apiVersion + "/" + endpoint + "/" + segmentsString + (params.length > 0 ? "?" + paramsString : '');
+	return this.origin + "/" + this.apiVersion + "/" + endpoint + "/" + path + (data.params.length > 0 ? "?" + params : '');
 };
 
-sparky.prototype.request = function() {
-	HTTP.call(method, this._buildURL(), [options], callback);
-};
 
+sparky.prototype.request = function(method, endpoint, data, callback) {
+	method = method.toUppercase();
+
+	// override callback if data is a function
+	if (typeof data === "function") {
+		callback = data;
+		data = {};
+	}
+
+	// setup url
+	var urlData = {
+		endpoint: endpoint,
+		path: data.path || data.id,
+		params: data.params
+	};
+
+	// setup header
+	var headers = this.options.headers;
+	headers['Authorization'] = this.options.apiKey;
+
+
+	HTTP.call(
+		method,
+		this._buildURL(urlData),
+		{
+			data: data.data,
+			headers: headers
+		},
+		callback);
+};
 
 export var Sparkpost = sparky;

@@ -1,6 +1,6 @@
 import { HTTP } from 'meteor/http';
 
-var sparky = function(apiKey, options) {
+var Sparkpost = function(apiKey, options) {
 	this.options = {
 		apiKey: null,
 		origin: 'https://api.sparkpost.com/api',
@@ -28,7 +28,7 @@ var sparky = function(apiKey, options) {
 		throw new Meteor.Error('api-key-required', 'Client requires API Key');
 };
 
-sparky.prototype._buildURL = function(data) {
+Sparkpost.prototype._buildURL = function(data) {
 	// accept the path as either string or array
 	var path = (Array.isArray(data.path) ? data.path.join('/') : data.path) || '';
 	
@@ -48,8 +48,7 @@ sparky.prototype._buildURL = function(data) {
 	return this.options.origin + "/" + this.options.apiVersion + "/" + data.endpoint + "/" + path + (params.length > 0 ? "?" + params : '');
 };
 
-
-sparky.prototype.request = function(method, endpoint, data, callback) {
+Sparkpost.prototype.request = function(method, endpoint, data, callback) {
 	method = method.toUpperCase();
 
 	// override callback if data is a function
@@ -69,17 +68,11 @@ sparky.prototype.request = function(method, endpoint, data, callback) {
 	var headers = this.options.headers;
 	headers['Authorization'] = this.options.apiKey;
 
-	console.log(method);
-
-	console.log(headers);
-
-	console.log(this._buildURL(urlData));
-
 	HTTP.call(
 		method,
 		this._buildURL(urlData),
 		{
-			// data: data.data || {},
+			data: data.data || {},
 			headers: {
 				'Authorization': '5705847ed881d1031ec0fce89ecdee4d13010ef7',
     			'Accept': 'application/json'
@@ -88,20 +81,20 @@ sparky.prototype.request = function(method, endpoint, data, callback) {
 		callback);
 };
 
-sparky.prototype.post = function(endpoint, data, callback) {
+Sparkpost.prototype.post = function(endpoint, data, callback) {
 	this.request('POST', endpoint, data, callback);
 };
 
-sparky.prototype.put = function(endpoint, data, callback) {
+Sparkpost.prototype.put = function(endpoint, data, callback) {
 	this.request('PUT', endpoint, data, callback);
 };
 
-sparky.prototype.get = function(endpoint, data, callback) {
+Sparkpost.prototype.get = function(endpoint, data, callback) {
 	this.request('GET', endpoint, data, callback);
 };
 
-sparky.prototype.delete = function(endpoint, data, callback) {
+Sparkpost.prototype.delete = function(endpoint, data, callback) {
 	this.request('DELETE', endpoint, data, callback);
 };
 
-export var Sparkpost = sparky;
+export { Sparkpost };

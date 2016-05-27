@@ -1,5 +1,5 @@
 var sparky = function() {
-	this._options: {
+	this.options = {
 		apiKey: null,
 		origin: 'https://api.sparkpost.com:443',
 		apiVersion: 'v1',
@@ -7,6 +7,20 @@ var sparky = function() {
 			"Content-Type: application/json"
 		}
 	};
+};
+
+sparky.prototype._buildURL = function(endpoint, segments, params) {
+	var segmentsString = segments.join('/');
+	
+	var paramsString = "";
+	for (var key in params) {
+	    if (paramsString != "") {
+	        paramsString += "&";
+	    }
+	    paramsString += key + "=" + encodeURIComponent(params[key]);
+	}
+	
+	return this.origin + "/" + this.apiVersion + "/" + endpoint + "/" + segmentsString + (params.length > 0 ? "?" + paramsString : '');
 };
 
 export var Sparkpost = sparky;

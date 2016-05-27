@@ -13,12 +13,13 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.3.2.4');
   api.use('ecmascript');
-  api.mainModule('sparkpost-api.js');
+  api.use('http','server');
+  api.mainModule('sparkpost-api.js', 'server');
 });
 
-Package.onTest(function(api) {
-  api.use('ecmascript');
-  api.use('tinytest');
-  api.use('agoldman:sparkpost-api');
-  api.mainModule('sparkpost-api-tests.js');
-});
+// Package.onTest(function(api) {
+//   api.use('ecmascript');
+//   api.use('tinytest');
+//   api.use('agoldman:sparkpost-api');
+//   api.mainModule('sparkpost-api-tests.js');
+// });

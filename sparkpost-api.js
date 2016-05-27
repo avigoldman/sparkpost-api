@@ -23,4 +23,9 @@ sparky.prototype._buildURL = function(endpoint, segments, params) {
 	return this.origin + "/" + this.apiVersion + "/" + endpoint + "/" + segmentsString + (params.length > 0 ? "?" + paramsString : '');
 };
 
+sparky.prototype.request = function() {
+	HTTP.call(method, this._buildURL(), [options], callback);
+};
+
+
 export var Sparkpost = sparky;

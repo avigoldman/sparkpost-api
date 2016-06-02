@@ -82,30 +82,34 @@ meteor add agoldman:sparkpost-api
  # Examples
  #### more examples can be found in the examples folder
 ```javascript
+import { Meteor } from 'meteor/meteor';
+import { Sparkpost } from 'meteor/agoldman:sparkpost-api';
+
 Meteor.startup(() => {
-  var sparky = new Sparkpost('YOUR_API_KEY');
-  sparky.post('transmissions', {
-  	data: {
-	  	recipients: [
-	      {
-	        address: {
-	          email: "avi.goldman@sparkpost.com",
-	        }
-	      }
-	    ],
-	    content: {
-	      from: {
-	        email: "postmaster@<YOUR_SENDING_DOMAIN>"
-	      },
-	      subject: "Email Subject",
-	      text: "Write your basic text message here!"
-	    }
-	}
-}, function(error, res) {
-  	if (error)
-  	    console.log(error);
-  	else
-  	    console.log(res.content);
+    var sparky = new Sparkpost('<YOUR_API_KEY>');
+      sparky.post('transmissions', {
+        data: {
+            recipients: [
+              {
+                address: {
+                  email: "avi.goldman@sparkpost.com",
+                }
+              }
+            ],
+            content: {
+              from: {
+                email: "postmaster@<YOUR_SENDING_DOMAIN>"
+              },
+              subject: "Email Subject",
+              text: "Write your basic text message here!"
+            }
+        }
+    }, function(error, res) {
+        if (error)
+            console.log(error);
+        else
+            console.log(res.content);
+    });
 });
 ```
 

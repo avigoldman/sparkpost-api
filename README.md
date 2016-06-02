@@ -79,8 +79,7 @@ meteor add agoldman:sparkpost-api
 #### post | put | get | delete (endpoint, data, callback)
 * passes all parameters into the request function 
 
- # Examples
- #### more examples can be found in the examples folder
+# Examples
 ```javascript
 import { Meteor } from 'meteor/meteor';
 import { Sparkpost } from 'meteor/agoldman:sparkpost-api';

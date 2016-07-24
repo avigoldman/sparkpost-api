@@ -39,7 +39,9 @@ meteor add agoldman:sparkpost-api
     * Required: no
     * Type: `Object`
     * The headers to be sent with all API calls
+
 ## Methods
+
 #### request(method, endpoint, data, callback)
 * `method`
     * Required: yes
